@@ -23,22 +23,22 @@ public class TaskController {
     }
 
     @GetMapping("/tasks/{id}")
-    public TaskEntity getOne(@PathVariable UUID id) {
-        return taskService.getOneTask(id);
+    public ResponseEntity<TaskEntity> getOne(@PathVariable UUID id) {
+        return ResponseEntity.ok(taskService.getOneTask(id));
     }
 
     @GetMapping("/tasks")
-    public List<TaskEntity> getTasks() {
-        return taskService.getTasks();
+    public ResponseEntity<List<TaskEntity>> getTasks() {
+        return ResponseEntity.ok(taskService.getTasks());
     }
 
     @PostMapping("/task")
-    public TaskEntity addTask (@RequestBody TaskEntity task) {
-        return taskService.addTask(task);
+    public ResponseEntity<TaskEntity> addTask (@RequestBody TaskEntity task) {
+        return ResponseEntity.ok(taskService.addTask(task));
     }
 
     @PutMapping("/task/{id}/terminated")
-    public TaskEntity taskTerminated(@PathVariable UUID id) {
-        return taskService.taskTerminated(id);
+    public ResponseEntity<TaskEntity> taskTerminated(@PathVariable UUID id) {
+        return ResponseEntity.ok(taskService.taskTerminated(id));
     }
 }
