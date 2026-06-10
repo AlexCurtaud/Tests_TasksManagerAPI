@@ -1,7 +1,9 @@
 package com.example.task.controller;
 
+import com.example.task.dto.TaskRequest;
 import com.example.task.entities.TaskEntity;
 import com.example.task.service.TaskService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,23 +24,28 @@ public class TaskController {
         return ResponseEntity.ok("Welcome to the Task Manager API!");
     }
 
-    @GetMapping("/tasks/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<TaskEntity> getOne(@PathVariable UUID id) {
         return ResponseEntity.ok(taskService.getOneTask(id));
     }
 
-    @GetMapping("/tasks")
+    @GetMapping("")
     public ResponseEntity<List<TaskEntity>> getTasks() {
         return ResponseEntity.ok(taskService.getTasks());
     }
 
-    @PostMapping("/task")
-    public ResponseEntity<TaskEntity> addTask (@RequestBody TaskEntity task) {
-        return ResponseEntity.ok(taskService.addTask(task));
+    @PostMapping("")
+    public ResponseEntity<TaskEntity> addTask (@RequestBody TaskRequest request) {
+        return new ResponseEntity<>(taskService.addTask(request.description()), HttpStatus.CREATED);
     }
 
-    @PutMapping("/task/{id}/terminated")
+    @PutMapping("/{id}/terminated")
     public ResponseEntity<TaskEntity> taskTerminated(@PathVariable UUID id) {
         return ResponseEntity.ok(taskService.taskTerminated(id));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteTask(@PathVariable UUID id) {
+        return taskService.deleteTask(id);
     }
 }
